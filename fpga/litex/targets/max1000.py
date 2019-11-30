@@ -22,7 +22,8 @@ from litex.soc.cores import gpio
 from litex.soc.cores.spi_flash import SpiFlash
 from litex.soc.interconnect.csr import *
 from litex.soc.interconnect import wishbone
-from terminal import Terminal
+
+from litex.soc.cores.terminal.core import Terminal
 
 class ClassicLed(Module):
     def __init__(self, pads):
