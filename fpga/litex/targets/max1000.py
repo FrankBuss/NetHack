@@ -23,7 +23,7 @@ from litex.soc.cores.spi_flash import SpiFlash
 from litex.soc.interconnect.csr import *
 from litex.soc.interconnect import wishbone
 
-from litex.soc.cores.terminal.core import Terminal
+from litevideo.terminal.core import Terminal
 
 class ClassicLed(Module):
     def __init__(self, pads):
@@ -150,15 +150,15 @@ class BaseSoC(SoCSDRAM):
 
         # create VGA terminal
         self.mem_map['terminal'] = 0x30000000
-        self.submodules.terminal = terminal = Terminal(crg.cd_vga.clk)
+        self.submodules.terminal = terminal = Terminal()
         self.add_wb_slave(mem_decoder(self.mem_map["terminal"]), self.terminal.bus)
         self.add_memory_region("terminal", self.mem_map["terminal"], 0x10000)
 
         # connect VGA pins
         vga = platform.request('vga', 0)
         self.comb += [
-            vga.vsync.eq(terminal.vga_vsync),
-            vga.hsync.eq(terminal.vga_hsync),
+            vga.vsync.eq(terminal.vsync),
+            vga.hsync.eq(terminal.hsync),
             vga.red.eq(terminal.red[2:8]),
             vga.green.eq(terminal.green[2:8]),
             vga.blue.eq(terminal.blue[2:8])
